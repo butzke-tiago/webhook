@@ -30,7 +30,9 @@ def hook():
                 }
                 l.write(dumps(record)+'\n')
                 return str(e), 500
-        return ''
+        resp = make_response({})
+        resp.headers["X-AdobeSign-ClientId"]=request.headers.get("X-AdobeSign-ClientId")
+        return resp
     except Exception as e:
         return str(e), 500
 
