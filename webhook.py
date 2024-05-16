@@ -22,7 +22,9 @@ def hook():
                     'headers': dict(request.headers),
                     'body': loads(request.data.decode())
                 }
-                l.write(dumps(record)+'\n')
+                if(l.tell()):
+                    l.write(',')    
+                l.write(dumps(record))
             except Exception as e:
                 record = {
                     'time': datetime.now().strftime('%d/%m/%Y %H:%M:%S'),
@@ -40,7 +42,7 @@ def hook():
 def log():
     try:
         with open('hook.log', 'r') as l:
-            return l.read()
+            return loads('[' + l.read() + ']')
     except Exception as e:
         return ''
     
