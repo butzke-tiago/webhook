@@ -5,15 +5,15 @@ from os import remove
 
 app = Flask('')
 
-@app.get('/')
-def home():
+@app.get('/AdobeSignAgreementEvent')
+def verify_intent():
     print(request.headers)
-    resp = make_response({})
-    resp.headers["X-AdobeSign-ClientId"]=request.headers.get("X-AdobeSign-ClientId")
+    resp = make_response({'xAdobeSignClientId':request.headers.get("X-AdobeSign-ClientId")})
+    #resp.headers["X-AdobeSign-ClientId"]=request.headers.get("X-AdobeSign-ClientId")
     return resp
 
-@app.post('/')
-def hook():
+@app.post('/AdobeSignAgreementEvent')
+def process_event():
     try:
         with open('hook.log', 'a') as l:
             try:
@@ -32,8 +32,8 @@ def hook():
                 }
                 l.write(dumps(record)+'\n')
                 return str(e), 500
-        resp = make_response({})
-        resp.headers["X-AdobeSign-ClientId"]=request.headers.get("X-AdobeSign-ClientId")
+        resp = make_response({'xAdobeSignClientId':request.headers.get("X-AdobeSign-ClientId")})
+        #resp.headers["X-AdobeSign-ClientId"]=request.headers.get("X-AdobeSign-ClientId")
         return resp
     except Exception as e:
         return str(e), 500
