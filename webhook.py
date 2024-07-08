@@ -18,7 +18,7 @@ def process_event():
                 record = {
                     'time': datetime.now().strftime('%d/%m/%Y %H:%M:%S'),
                     'headers': dict(request.headers),
-                    'body': loads(request.data.decode())
+                    'body': loads(request.data.decode()) if len(request.data) else ''
                 }
                 if(l.tell()):
                     l.write(',')    
