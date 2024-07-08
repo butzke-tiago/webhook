@@ -7,10 +7,8 @@ app = Flask('')
 
 @app.get('/AdobeSignAgreementEvent')
 def verify_intent():
-    print(request.headers)
-    resp = make_response({'xAdobeSignClientId':request.headers.get("X-AdobeSign-ClientId")})
-    #resp.headers["X-AdobeSign-ClientId"]=request.headers.get("X-AdobeSign-ClientId")
-    return resp
+    return process_event()
+
 
 @app.post('/AdobeSignAgreementEvent')
 def process_event():
